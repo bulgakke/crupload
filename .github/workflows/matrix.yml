@@ -7,38 +7,38 @@ on:
 
 jobs:
   release:
-     strategy:
+    strategy:
       fail-fast: false
       matrix:
         include:
           - {os: ubuntu-latest}
           - {os: macos-latest}
           - {os: windows-latest, extension: .exe}
-      runs-on: ${{matrix.os}}
-      steps:
-        - name: Download source
-          uses: actions/checkout@v2
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: Download source
+        uses: actions/checkout@v2
 
-        - name: Install Crystal
-          uses: crystal-lang/install-crystal@v1
-          with:
-            crystal: 1.4.1
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+        with:
+          crystal: 1.4.1
 
-        - name: Install shards
-          run: shards install
+      - name: Install shards
+        run: shards install
 
-        - name: Build
-          run: |
-            shards build --release --no-debug --static --progress
-            if [ -e bin/crupload.exe ]; then mv bin/crupload bin/crupload; fi
-            strip bin/crupload
+      - name: Build
+        run: |
+          shards build --release --no-debug --static --progress
+          if [ -e bin/crupload.exe ]; then mv bin/crupload bin/crupload; fi
+          strip bin/crupload
 
-        - name: Upload
-          uses: actions/upload-release-asset@v1.0.1
-          env:
-            GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          with:
-            upload_url: ${{github.event.release.upload_url}}
-            asset_path: ./bin/crupload
-            asset_name: crupload-${{github.event.release.tag_name}}-${{matrix.os}}-${{matrix.extension}}
-            asset_content_type: binary/octet-stream
+      - name: Upload
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          upload_url: ${{github.event.release.upload_url}}
+          asset_path: ./bin/crupload
+          asset_name: crupload-${{github.event.release.tag_name}}-${{matrix.os}}-${{matrix.extension}}
+          asset_content_type: binary/octet-stream
