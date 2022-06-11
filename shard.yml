@@ -6,7 +6,11 @@ authors:
 
 targets:
   crupload:
-    main: main.cr
+    main: src/main.cr
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
 
 crystal: 1.4.1
 

@@ -1,8 +1,13 @@
-# TODO: Write documentation for `Crupload`
-module Crupload
-  VERSION = "0.1.3"
+require "kemal"
 
-  def self.take_square_root(number : Float)
-    Math.sqrt(number)
+module Crupload
+  LAYOUT = "src/views/layout.ecr"
+
+  def render(path_to_view : String)
+    render(path_to_view, LAYOUT)
+  end
+
+  get "/" do
+    render("src/views/main.ecr")
   end
 end
