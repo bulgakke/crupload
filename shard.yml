@@ -1,0 +1,13 @@
+name: crupload
+version: 0.1.0
+
+authors:
+  - bulgakke <vvp835@yandex.ru>
+
+targets:
+  crupload:
+    main: src/crupload.cr
+
+crystal: 1.4.1
+
+license: MIT
