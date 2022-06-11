@@ -22,14 +22,14 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.4.1
+          crystal: 1.4.0
 
       - name: Install shards
         run: shards install
 
       - name: Build
         run: |
-          shards build --release --no-debug --static --progress
+          shards build --release --no-debug --progress
           if [ -e bin/crupload.exe ]; then mv bin/crupload bin/crupload; fi
           strip bin/crupload
 
