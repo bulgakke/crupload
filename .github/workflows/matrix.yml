@@ -13,6 +13,8 @@ jobs:
         include:
           - {os: ubuntu-latest}
           - {os: macos-latest}
+          # Crystal 1.4.1 isn't supported on Windows, and 1.5.0-dev build fails.
+          # Will wait for official 1.5.0 release, the team seems to be working on the causing issues.
           - {os: windows-latest, extension: .exe}
     runs-on: ${{matrix.os}}
     steps:
@@ -22,7 +24,7 @@ jobs:
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: 1.4.0
+          crystal: 1.5.0
 
       - name: Install shards
         run: shards install
@@ -30,7 +32,7 @@ jobs:
       - name: Build
         run: |
           shards build --release --no-debug --progress
-          if [ -e bin/crupload.exe ]; then mv bin/crupload bin/crupload; fi
+          if [ -e bin/crupload.exe ]; then mv bin/crupload.exe bin/crupload; fi
           strip bin/crupload
 
       - name: Upload
@@ -40,5 +42,5 @@ jobs:
         with:
           upload_url: ${{github.event.release.upload_url}}
           asset_path: ./bin/crupload
-          asset_name: crupload-${{github.event.release.tag_name}}-${{matrix.os}}-${{matrix.extension}}
+          asset_name: crupload-${{github.event.release.tag_name}}-${{matrix.os}}${{matrix.extension}}
           asset_content_type: binary/octet-stream
