@@ -1,9 +1,9 @@
 name: Matrix Release
 
-# on:
-#   release:
-#     types:
-#       - created
+on:
+  release:
+    types:
+      - created
 
 jobs:
   release:
@@ -13,8 +13,6 @@ jobs:
         include:
           - {os: ubuntu-latest}
           - {os: macos-latest}
-          # Crystal 1.4.1 isn't supported on Windows, and 1.5.0-dev build fails.
-          # Will wait for official 1.5.0 release, the team seems to be working on the causing issues.
           - {os: windows-latest, extension: .exe}
     runs-on: ${{matrix.os}}
     steps:
