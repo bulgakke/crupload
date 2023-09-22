@@ -30,8 +30,11 @@ jobs:
       - name: Build
         run: |
           shards build --release --no-debug --progress --static
-          if [ -e bin/crupload.exe ]; then mv bin/crupload.exe bin/crupload; fi
           strip bin/crupload
+
+      - name: Rename Windows executable
+        run: ren bin\crupload.exe crupload
+        if: runner.os == 'Windows'
 
       - name: Upload
         uses: actions/upload-release-asset@v1.0.1
