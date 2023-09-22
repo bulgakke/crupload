@@ -16,7 +16,7 @@ jobs:
       - name: Build
         run: |
           crystal -v
-          shards build --release --no-debug --progress
+          shards build --release --no-debug --static --progress
           strip bin/crupload
       - name: Upload
         uses: actions/upload-release-asset@v1.0.1
