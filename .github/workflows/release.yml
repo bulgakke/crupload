@@ -71,3 +71,24 @@ jobs:
           asset_path: ./bin/crupload.exe
           asset_name: crupload-${{ github.event.release.tag_name }}-windows.exe
           asset_content_type: binary/octet-stream
+
+  release_windows_dynamic:
+    runs-on: windows-latest
+    steps:
+      - name: Download source
+        uses: actions/checkout@v2
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+      - name: Install shards
+        run: shards install
+      - name: Build
+        run: shards build --release --no-debug --progress
+      - name: Upload
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./bin/crupload.exe
+          asset_name: crupload-${{ github.event.release.tag_name }}-windows-dynamic.exe
+          asset_content_type: binary/octet-stream
